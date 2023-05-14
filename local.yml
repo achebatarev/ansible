@@ -1,0 +1,25 @@
+#NOTE: DEPENDENCIES: curl, git, stow
+#TODO: install fzf, dotfiles, stow, nvim, kitty?
+- name: One Script to Rule them all
+  hosts: localhost
+  become: true
+  tasks:
+    #TODO: support pacman 
+    - name: Install zsh
+      package:
+        name: zsh
+    - name: Change default shell
+      shell: chsh -s `which zsh`
+    #TODO: if curl is not installed, install it
+    - name: Install ohmyzsh 
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    - name: Install the zsh plugin zsh-autosuggestions 
+      shell: git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    - name: Install the zsh plugin syntax highlighting 
+      shell: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    # TODO: remove later
+    - name: temporaray crutch
+      shell: sed -i 's/(git/(git zsh-autosuggestions zsh-syntax-highlighting/' ~/.zshrc
+
+
+
